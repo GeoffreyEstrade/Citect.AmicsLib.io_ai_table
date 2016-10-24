@@ -1,0 +1,631 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<template desc="Table horaire">
+  <param name="type">
+    <string name="name">IO_AI_TABLE</string>
+    <string name="ref">IO_AI_TABLE</string>
+    <string name="blank"></string>
+    <string name="wildcard"></string>
+    <string name="parameter-definitions">OUT.U=;OUT.F=</string>
+  </param>
+  <input name="equipment" file="equip.dbf" desc="Equipment Database">
+    <field name="PARAM" />
+    <field name="TAGPREFIX" />
+    <field name="COMMENT" />
+    <field name="NAME" />
+    <field name="CLUSTER" />
+    <field name="IODEVICE" />
+    <field name="CUSTOM7" />
+    <field name="PAGE" />
+    <field name="AREA" />
+    <field name="TYPE" />
+    <field name="HELP" />
+    <field name="LOCATION" />
+    <field name="SCHEDULED" />
+    <field name="DEFSTATE" />
+    <field name="CUSTOM1" />
+    <field name="CUSTOM2" />
+    <field name="CUSTOM3" />
+    <field name="CUSTOM4" />
+    <field name="CUSTOM5" />
+    <field name="CUSTOM6" />
+    <field name="CUSTOM8" />
+    <array name="param_list">{ToProperty('{param}','=',';')}</array>
+    <array name="OUT">{ToProperty('{equipment.param_list[OUT]}',':',',')}</array>
+  </input>
+  <output name="UE" file="advalm.dbf" filter="'{equipment.type}={type.name}'">
+    <field name="TAG" key="true">{equipment.tagprefix}_SOE</field>
+    <field name="NAME">{equipment.tagprefix}</field>
+    <field name="EXPR">0</field>
+    <field name="CATEGORY">41</field>
+    <field name="COMMENT">{equipment.comment}</field>
+    <field name="EQUIP">{equipment.name}</field>
+    <field name="DESC">SOE</field>
+    <field name="CLUSTER">{equipment.CLUSTER}</field>
+    <field name="ITEM">SOE</field>
+    <field name="TAGGENLINK" load="true">d44370b9-1a9d-4182-8932-e335</field>
+    <field name="LINKED">1</field>
+    <field name="EDITCODE">130547999</field>
+  </output>
+  <output name="VAR.ALRM" file="variable.dbf" filter="'{equipment.type}={type.name}'">
+    <field name="NAME" key="true">{equipment.tagprefix}_Alrmlw</field>
+    <field name="TYPE">INT</field>
+    <field name="UNIT">{equipment.iodevice}</field>
+    <field name="ADDR">{equipment.tagprefix}.Alrmlw</field>
+    <field name="COMMENT">Alarmes</field>
+    <field name="EQUIP">{equipment.name}</field>
+    <field name="CLUSTER">{equipment.CLUSTER}</field>
+    <field name="ITEM">Alrmlw</field>
+    <field name="TAGGENLINK" load="true">38a249a6-d166-4adc-ab9f-089b</field>
+    <field name="LINKED">1</field>
+    <field name="EDITCODE">3939343</field>
+  </output>
+  <output name="ALRM.2" file="advalm.dbf" filter="'{equipment.type}={type.name}'">
+    <field name="TAG" key="true">{equipment.tagprefix}_A_OS</field>
+    <field name="NAME">{equipment.tagprefix}</field>
+    <field name="DESC">En mode hors service</field>
+    <field name="EXPR">{equipment.tagprefix}_Alrmlw BITAND 0x0004</field>
+    <field name="CATEGORY">WAR2</field>
+    <field name="COMMENT">{equipment.comment}</field>
+    <field name="EQUIP">{equipment.name}</field>
+    <field name="CLUSTER">{equipment.CLUSTER}</field>
+    <field name="ITEM">A_OS</field>
+    <field name="TAGGENLINK" load="true">0caa2e6c-391a-4022-b885-bc8e</field>
+    <field name="LINKED">1</field>
+    <field name="EDITCODE">130547999</field>
+  </output>
+  <output name="ALRM.2_1" file="advalm.dbf" filter="'{equipment.type}={type.name}'">
+    <field name="TAG" key="true">{equipment.tagprefix}_A_FORC</field>
+    <field name="NAME">{equipment.tagprefix}</field>
+    <field name="DESC">En mode forcé</field>
+    <field name="EXPR">{equipment.tagprefix}_Alrmlw BITAND 0x0008</field>
+    <field name="CATEGORY">WAR2</field>
+    <field name="COMMENT">{equipment.comment}</field>
+    <field name="EQUIP">{equipment.name}</field>
+    <field name="CLUSTER">{equipment.CLUSTER}</field>
+    <field name="ITEM">A_FORC</field>
+    <field name="TAGGENLINK" load="true">149fba36-17d7-4b8a-9a49-e1ba</field>
+    <field name="LINKED">1</field>
+    <field name="EDITCODE">130547999</field>
+  </output>
+  <output name="VAR.STAT0" file="variable.dbf" filter="'{equipment.type}={type.name}'">
+    <field name="NAME" key="true">{equipment.tagprefix}_Statlw</field>
+    <field name="TYPE">INT</field>
+    <field name="UNIT">{equipment.iodevice}</field>
+    <field name="ADDR">{equipment.tagprefix}.Statlw</field>
+    <field name="COMMENT">Etats</field>
+    <field name="EQUIP">{equipment.name}</field>
+    <field name="CLUSTER">{equipment.CLUSTER}</field>
+    <field name="ITEM">Statlw</field>
+    <field name="TAGGENLINK" load="true">4de14a19-c1ad-41a6-ab7a-8317</field>
+    <field name="LINKED">1</field>
+    <field name="EDITCODE">3939343</field>
+  </output>
+  <output name="STAT0.0" file="advalm.dbf" filter="'{equipment.type}={type.name}'">
+    <field name="TAG" key="true">{equipment.tagprefix}_S_AUT</field>
+    <field name="NAME">{equipment.tagprefix}</field>
+    <field name="DESC">En mode automatique</field>
+    <field name="EXPR">{equipment.tagprefix}_Statlw BITAND 0x0001</field>
+    <field name="CATEGORY">EVEN</field>
+    <field name="COMMENT">{equipment.comment}</field>
+    <field name="EQUIP">{equipment.name}</field>
+    <field name="CLUSTER">{equipment.CLUSTER}</field>
+    <field name="ITEM">S_AUT</field>
+    <field name="TAGGENLINK" load="true">4051d834-7867-404e-be73-d748</field>
+    <field name="LINKED">1</field>
+    <field name="EDITCODE">130547999</field>
+  </output>
+  <output name="STAT0.2" file="advalm.dbf" filter="'{equipment.type}={type.name}'">
+    <field name="TAG" key="true">{equipment.tagprefix}_S_OS</field>
+    <field name="NAME">{equipment.tagprefix}</field>
+    <field name="DESC">En mode hors service</field>
+    <field name="EXPR">{equipment.tagprefix}_Statlw BITAND 0x0004</field>
+    <field name="CATEGORY">EVEN</field>
+    <field name="COMMENT">{equipment.comment}</field>
+    <field name="EQUIP">{equipment.name}</field>
+    <field name="CLUSTER">{equipment.CLUSTER}</field>
+    <field name="ITEM">S_OS</field>
+    <field name="TAGGENLINK" load="true">b0a6cf13-2a0a-4376-a6c4-3169</field>
+    <field name="LINKED">1</field>
+    <field name="EDITCODE">130547999</field>
+  </output>
+  <output name="STAT0.3" file="advalm.dbf" filter="'{equipment.type}={type.name}'">
+    <field name="TAG" key="true">{equipment.tagprefix}_S_FORC</field>
+    <field name="NAME">{equipment.tagprefix}</field>
+    <field name="DESC">En mode forcé</field>
+    <field name="EXPR">{equipment.tagprefix}_Statlw BITAND 0x0008</field>
+    <field name="CATEGORY">EVEN</field>
+    <field name="COMMENT">{equipment.comment}</field>
+    <field name="EQUIP">{equipment.name}</field>
+    <field name="CLUSTER">{equipment.CLUSTER}</field>
+    <field name="ITEM">S_FORC</field>
+    <field name="TAGGENLINK" load="true">6d392b27-fa1f-4d6c-9003-1361</field>
+    <field name="LINKED">1</field>
+    <field name="EDITCODE">130547999</field>
+  </output>
+  <output name="VAR.AUTHMODE" file="variable.dbf" filter="'{equipment.type}={type.name}'">
+    <field name="NAME" key="true">{equipment.tagprefix}_AUTHMODE</field>
+    <field name="TYPE">BYTE</field>
+    <field name="UNIT">{equipment.iodevice}</field>
+    <field name="ADDR">{equipment.tagprefix}.AUTHMODE</field>
+    <field name="COMMENT">Modes autorisés</field>
+    <field name="EQUIP">{equipment.name}</field>
+    <field name="CLUSTER">{equipment.CLUSTER}</field>
+    <field name="ITEM">AUTHMODE</field>
+    <field name="TAGGENLINK" load="true">7c220e6a-1ec3-4c72-8a4a-d6f2</field>
+    <field name="LINKED">1</field>
+    <field name="EDITCODE">3939343</field>
+  </output>
+  <output name="VAR.Cmd_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_3" file="variable.dbf" filter="'{equipment.type}={type.name}'">
+    <field name="NAME" key="true">{equipment.tagprefix}_OUT_MIN</field>
+    <field name="TYPE">REAL</field>
+    <field name="UNIT">{equipment.iodevice}</field>
+    <field name="ADDR">{equipment.tagprefix}.OUT_MIN</field>
+    <field name="COMMENT">Echelle basse de la sortie</field>
+    <field name="EQUIP">{equipment.name}</field>
+    <field name="CUSTOM8">PREGLEUR_N1</field>
+    <field name="ENG_UNITS">{equipment.OUT[U]}</field>
+    <field name="FORMAT">{equipment.OUT[F]}Eu</field>
+    <field name="CLUSTER" key="true">{equipment.CLUSTER}</field>
+    <field name="ITEM">OUT_MIN</field>
+    <field name="TAGGENLINK" load="true">0183cc1c-72c1-424b-ab12-508a</field>
+    <field name="LINKED">1</field>
+    <field name="EDITCODE">1077681935</field>
+  </output>
+  <output name="VAR.Cmd_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_3_1" file="variable.dbf" filter="'{equipment.type}={type.name}'">
+    <field name="NAME" key="true">{equipment.tagprefix}_OUT_MAX</field>
+    <field name="TYPE">REAL</field>
+    <field name="UNIT">{equipment.iodevice}</field>
+    <field name="ADDR">{equipment.tagprefix}.OUT_MAX</field>
+    <field name="COMMENT">Echelle haute de la sortie</field>
+    <field name="EQUIP">{equipment.name}</field>
+    <field name="CUSTOM8">PREGLEUR_N1</field>
+    <field name="ENG_UNITS">{equipment.OUT[U]}</field>
+    <field name="FORMAT">{equipment.OUT[F]}Eu</field>
+    <field name="CLUSTER" key="true">{equipment.CLUSTER}</field>
+    <field name="ITEM">OUT_MAX</field>
+    <field name="TAGGENLINK" load="true">44e24cb1-d54a-47e0-bd61-f4d0</field>
+    <field name="LINKED">1</field>
+    <field name="EDITCODE">1077681935</field>
+  </output>
+  <output name="VAR.AUTHMODE_1" file="variable.dbf" filter="'{equipment.type}={type.name}'">
+    <field name="NAME" key="true">{equipment.tagprefix}_HOUR</field>
+    <field name="TYPE">INT</field>
+    <field name="UNIT">{equipment.iodevice}</field>
+    <field name="ADDR">{equipment.tagprefix}.HOUR</field>
+    <field name="COMMENT">Heure courante</field>
+    <field name="EQUIP">{equipment.name}</field>
+    <field name="CLUSTER">{equipment.CLUSTER}</field>
+    <field name="ITEM">HOUR</field>
+    <field name="TAGGENLINK" load="true">9c5ec2cc-7c83-4fc3-af7f-de47</field>
+    <field name="LINKED">1</field>
+    <field name="EDITCODE">3939343</field>
+  </output>
+  <output name="VAR.Cmd_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1" file="variable.dbf" filter="'{equipment.type}={type.name}'">
+    <field name="NAME" key="true">{equipment.tagprefix}_TRK_I</field>
+    <field name="TYPE">REAL</field>
+    <field name="UNIT">{equipment.iodevice}</field>
+    <field name="ADDR">{equipment.tagprefix}.TRK_I</field>
+    <field name="COMMENT">Valeur de tracking</field>
+    <field name="EQUIP">{equipment.name}</field>
+    <field name="ENG_UNITS">{equipment.OUT[U]}</field>
+    <field name="FORMAT">{equipment.OUT[F]}Eu</field>
+    <field name="CLUSTER">{equipment.CLUSTER}</field>
+    <field name="ITEM">TRK_I</field>
+    <field name="TAGGENLINK" load="true">383fb564-bc6e-46cb-9dd5-47e7</field>
+    <field name="LINKED">1</field>
+    <field name="EDITCODE">3940111</field>
+  </output>
+  <output name="VAR.Mode" file="variable.dbf" filter="'{equipment.type}={type.name}'">
+    <field name="NAME" key="true">{equipment.tagprefix}_Mode</field>
+    <field name="TYPE">BYTE</field>
+    <field name="UNIT">{equipment.iodevice}</field>
+    <field name="ADDR">{equipment.tagprefix}.Mode</field>
+    <field name="COMMENT">Présélection d un mode</field>
+    <field name="EQUIP">{equipment.name}</field>
+    <field name="CLUSTER">{equipment.CLUSTER}</field>
+    <field name="ITEM">Mode</field>
+    <field name="TAGGENLINK" load="true">43893d9d-78b7-47d5-8c1a-fbd1</field>
+    <field name="LINKED">1</field>
+    <field name="EDITCODE">3939343</field>
+  </output>
+  <output name="VAR.Cmd_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_2" file="variable.dbf" filter="'{equipment.type}={type.name}'">
+    <field name="NAME" key="true">{equipment.tagprefix}_Rate</field>
+    <field name="TYPE">REAL</field>
+    <field name="UNIT">{equipment.iodevice}</field>
+    <field name="ADDR">{equipment.tagprefix}.Rate</field>
+    <field name="COMMENT">Limitation de vitesse</field>
+    <field name="EQUIP">{equipment.name}</field>
+    <field name="CUSTOM8">PREGLEUR_N1</field>
+    <field name="ENG_UNITS">{equipment.OUT[U]}/s</field>
+    <field name="FORMAT">{equipment.OUT[F]}Eu</field>
+    <field name="CLUSTER">{equipment.CLUSTER}</field>
+    <field name="ITEM">Rate</field>
+    <field name="TAGGENLINK" load="true">bfa1c7a3-e71f-49b7-8339-6e06</field>
+    <field name="LINKED">1</field>
+    <field name="EDITCODE">1077681935</field>
+  </output>
+  <output name="VAR.Cmd_1" file="variable.dbf" filter="'{equipment.type}={type.name}'">
+    <field name="NAME" key="true">{equipment.tagprefix}_Table_0</field>
+    <field name="TYPE">REAL</field>
+    <field name="UNIT">{equipment.iodevice}</field>
+    <field name="ADDR">{equipment.tagprefix}.Table[0]</field>
+    <field name="COMMENT">Valeur [0;1[h</field>
+    <field name="EQUIP">{equipment.name}</field>
+    <field name="CUSTOM8">PREGLEUR_N1</field>
+    <field name="ENG_UNITS">{equipment.OUT[U]}</field>
+    <field name="FORMAT">{equipment.OUT[F]}Eu</field>
+    <field name="CLUSTER">{equipment.CLUSTER}</field>
+    <field name="ITEM">Table_0</field>
+    <field name="TAGGENLINK" load="true">53b80755-21d2-4bd5-9475-c6d0</field>
+    <field name="LINKED">1</field>
+    <field name="EDITCODE">1077681935</field>
+  </output>
+  <output name="VAR.Cmd_1_1" file="variable.dbf" filter="'{equipment.type}={type.name}'">
+    <field name="NAME" key="true">{equipment.tagprefix}_Table_1</field>
+    <field name="TYPE">REAL</field>
+    <field name="UNIT">{equipment.iodevice}</field>
+    <field name="ADDR">{equipment.tagprefix}.Table[1]</field>
+    <field name="COMMENT">Valeur [1;2[h</field>
+    <field name="EQUIP">{equipment.name}</field>
+    <field name="CUSTOM8">PREGLEUR_N1</field>
+    <field name="ENG_UNITS">{equipment.OUT[U]}</field>
+    <field name="FORMAT">{equipment.OUT[F]}Eu</field>
+    <field name="CLUSTER">{equipment.CLUSTER}</field>
+    <field name="ITEM">Table_1</field>
+    <field name="TAGGENLINK" load="true">541938b3-86b5-450e-97b2-058c</field>
+    <field name="LINKED">1</field>
+    <field name="EDITCODE">1077681935</field>
+  </output>
+  <output name="VAR.Cmd_1_1_1" file="variable.dbf" filter="'{equipment.type}={type.name}'">
+    <field name="NAME" key="true">{equipment.tagprefix}_Table_2</field>
+    <field name="TYPE">REAL</field>
+    <field name="UNIT">{equipment.iodevice}</field>
+    <field name="ADDR">{equipment.tagprefix}.Table[2]</field>
+    <field name="COMMENT">Valeur [2;3[h</field>
+    <field name="EQUIP">{equipment.name}</field>
+    <field name="CUSTOM8">PREGLEUR_N1</field>
+    <field name="ENG_UNITS">{equipment.OUT[U]}</field>
+    <field name="FORMAT">{equipment.OUT[F]}Eu</field>
+    <field name="CLUSTER">{equipment.CLUSTER}</field>
+    <field name="ITEM">Table_2</field>
+    <field name="TAGGENLINK" load="true">e093e6ca-d2d4-4055-a704-ec11</field>
+    <field name="LINKED">1</field>
+    <field name="EDITCODE">1077681935</field>
+  </output>
+  <output name="VAR.Cmd_1_1_1_1" file="variable.dbf" filter="'{equipment.type}={type.name}'">
+    <field name="NAME" key="true">{equipment.tagprefix}_Table_3</field>
+    <field name="TYPE">REAL</field>
+    <field name="UNIT">{equipment.iodevice}</field>
+    <field name="ADDR">{equipment.tagprefix}.Table[3]</field>
+    <field name="COMMENT">Valeur [3;4[h</field>
+    <field name="EQUIP">{equipment.name}</field>
+    <field name="CUSTOM8">PREGLEUR_N1</field>
+    <field name="ENG_UNITS">{equipment.OUT[U]}</field>
+    <field name="FORMAT">{equipment.OUT[F]}Eu</field>
+    <field name="CLUSTER">{equipment.CLUSTER}</field>
+    <field name="ITEM">Table_3</field>
+    <field name="TAGGENLINK" load="true">2f8faf6f-cba2-4ec0-a1cb-ed6d</field>
+    <field name="LINKED">1</field>
+    <field name="EDITCODE">1077681935</field>
+  </output>
+  <output name="VAR.Cmd_1_1_1_1_1" file="variable.dbf" filter="'{equipment.type}={type.name}'">
+    <field name="NAME" key="true">{equipment.tagprefix}_Table_4</field>
+    <field name="TYPE">REAL</field>
+    <field name="UNIT">{equipment.iodevice}</field>
+    <field name="ADDR">{equipment.tagprefix}.Table[4]</field>
+    <field name="COMMENT">Valeur [4;5[h</field>
+    <field name="EQUIP">{equipment.name}</field>
+    <field name="CUSTOM8">PREGLEUR_N1</field>
+    <field name="ENG_UNITS">{equipment.OUT[U]}</field>
+    <field name="FORMAT">{equipment.OUT[F]}Eu</field>
+    <field name="CLUSTER">{equipment.CLUSTER}</field>
+    <field name="ITEM">Table_4</field>
+    <field name="TAGGENLINK" load="true">92c17285-4176-48c8-a6ba-98a2</field>
+    <field name="LINKED">1</field>
+    <field name="EDITCODE">1077681935</field>
+  </output>
+  <output name="VAR.Cmd_1_1_1_1_1_1" file="variable.dbf" filter="'{equipment.type}={type.name}'">
+    <field name="NAME" key="true">{equipment.tagprefix}_Table_5</field>
+    <field name="TYPE">REAL</field>
+    <field name="UNIT">{equipment.iodevice}</field>
+    <field name="ADDR">{equipment.tagprefix}.Table[5]</field>
+    <field name="COMMENT">Valeur [5;6[h</field>
+    <field name="EQUIP">{equipment.name}</field>
+    <field name="CUSTOM8">PREGLEUR_N1</field>
+    <field name="ENG_UNITS">{equipment.OUT[U]}</field>
+    <field name="FORMAT">{equipment.OUT[F]}Eu</field>
+    <field name="CLUSTER">{equipment.CLUSTER}</field>
+    <field name="ITEM">Table_5</field>
+    <field name="TAGGENLINK" load="true">31d5ea80-7b11-421d-9d0f-cf0c</field>
+    <field name="LINKED">1</field>
+    <field name="EDITCODE">1077681935</field>
+  </output>
+  <output name="VAR.Cmd_1_1_1_1_1_1_1" file="variable.dbf" filter="'{equipment.type}={type.name}'">
+    <field name="NAME" key="true">{equipment.tagprefix}_Table_6</field>
+    <field name="TYPE">REAL</field>
+    <field name="UNIT">{equipment.iodevice}</field>
+    <field name="ADDR">{equipment.tagprefix}.Table[6]</field>
+    <field name="COMMENT">Valeur [6;7[h</field>
+    <field name="EQUIP">{equipment.name}</field>
+    <field name="CUSTOM8">PREGLEUR_N1</field>
+    <field name="ENG_UNITS">{equipment.OUT[U]}</field>
+    <field name="FORMAT">{equipment.OUT[F]}Eu</field>
+    <field name="CLUSTER">{equipment.CLUSTER}</field>
+    <field name="ITEM">Table_6</field>
+    <field name="TAGGENLINK" load="true">7fc0e0c8-4953-42d2-9ad8-ddea</field>
+    <field name="LINKED">1</field>
+    <field name="EDITCODE">1077681935</field>
+  </output>
+  <output name="VAR.Cmd_1_1_1_1_1_1_1_1" file="variable.dbf" filter="'{equipment.type}={type.name}'">
+    <field name="NAME" key="true">{equipment.tagprefix}_Table_7</field>
+    <field name="TYPE">REAL</field>
+    <field name="UNIT">{equipment.iodevice}</field>
+    <field name="ADDR">{equipment.tagprefix}.Table[7]</field>
+    <field name="COMMENT">Valeur [7;8[h</field>
+    <field name="EQUIP">{equipment.name}</field>
+    <field name="CUSTOM8">PREGLEUR_N1</field>
+    <field name="ENG_UNITS">{equipment.OUT[U]}</field>
+    <field name="FORMAT">{equipment.OUT[F]}Eu</field>
+    <field name="CLUSTER">{equipment.CLUSTER}</field>
+    <field name="ITEM">Table_7</field>
+    <field name="TAGGENLINK" load="true">82a2511a-54ed-4970-95f7-ebe1</field>
+    <field name="LINKED">1</field>
+    <field name="EDITCODE">1077681935</field>
+  </output>
+  <output name="VAR.Cmd_1_1_1_1_1_1_1_1_1" file="variable.dbf" filter="'{equipment.type}={type.name}'">
+    <field name="NAME" key="true">{equipment.tagprefix}_Table_8</field>
+    <field name="TYPE">REAL</field>
+    <field name="UNIT">{equipment.iodevice}</field>
+    <field name="ADDR">{equipment.tagprefix}.Table[8]</field>
+    <field name="COMMENT">Valeur [8;9[h</field>
+    <field name="EQUIP">{equipment.name}</field>
+    <field name="CUSTOM8">PREGLEUR_N1</field>
+    <field name="ENG_UNITS">{equipment.OUT[U]}</field>
+    <field name="FORMAT">{equipment.OUT[F]}Eu</field>
+    <field name="CLUSTER">{equipment.CLUSTER}</field>
+    <field name="ITEM">Table_8</field>
+    <field name="TAGGENLINK" load="true">d7df223a-49fb-4fe0-85b0-268d</field>
+    <field name="LINKED">1</field>
+    <field name="EDITCODE">1077681935</field>
+  </output>
+  <output name="VAR.Cmd_1_1_1_1_1_1_1_1_1_1" file="variable.dbf" filter="'{equipment.type}={type.name}'">
+    <field name="NAME" key="true">{equipment.tagprefix}_Table_9</field>
+    <field name="TYPE">REAL</field>
+    <field name="UNIT">{equipment.iodevice}</field>
+    <field name="ADDR">{equipment.tagprefix}.Table[9]</field>
+    <field name="COMMENT">Valeur [9;10[h</field>
+    <field name="EQUIP">{equipment.name}</field>
+    <field name="CUSTOM8">PREGLEUR_N1</field>
+    <field name="ENG_UNITS">{equipment.OUT[U]}</field>
+    <field name="FORMAT">{equipment.OUT[F]}Eu</field>
+    <field name="CLUSTER">{equipment.CLUSTER}</field>
+    <field name="ITEM">Table_9</field>
+    <field name="TAGGENLINK" load="true">867aaaf1-6ce1-4ff2-97ad-e753</field>
+    <field name="LINKED">1</field>
+    <field name="EDITCODE">1077681935</field>
+  </output>
+  <output name="VAR.Cmd_1_1_1_1_1_1_1_1_1_1_1" file="variable.dbf" filter="'{equipment.type}={type.name}'">
+    <field name="NAME" key="true">{equipment.tagprefix}_Table_10</field>
+    <field name="TYPE">REAL</field>
+    <field name="UNIT">{equipment.iodevice}</field>
+    <field name="ADDR">{equipment.tagprefix}.Table[10]</field>
+    <field name="COMMENT">Valeur [10;11[h</field>
+    <field name="EQUIP">{equipment.name}</field>
+    <field name="CUSTOM8">PREGLEUR_N1</field>
+    <field name="ENG_UNITS">{equipment.OUT[U]}</field>
+    <field name="FORMAT">{equipment.OUT[F]}Eu</field>
+    <field name="CLUSTER">{equipment.CLUSTER}</field>
+    <field name="ITEM">Table_10</field>
+    <field name="TAGGENLINK" load="true">53aba5d3-9738-4e56-953c-f56e</field>
+    <field name="LINKED">1</field>
+    <field name="EDITCODE">1077681935</field>
+  </output>
+  <output name="VAR.Cmd_1_1_1_1_1_1_1_1_1_1_1_1" file="variable.dbf" filter="'{equipment.type}={type.name}'">
+    <field name="NAME" key="true">{equipment.tagprefix}_Table_11</field>
+    <field name="TYPE">REAL</field>
+    <field name="UNIT">{equipment.iodevice}</field>
+    <field name="ADDR">{equipment.tagprefix}.Table[11]</field>
+    <field name="COMMENT">Valeur [11;12[h</field>
+    <field name="EQUIP">{equipment.name}</field>
+    <field name="CUSTOM8">PREGLEUR_N1</field>
+    <field name="ENG_UNITS">{equipment.OUT[U]}</field>
+    <field name="FORMAT">{equipment.OUT[F]}Eu</field>
+    <field name="CLUSTER">{equipment.CLUSTER}</field>
+    <field name="ITEM">Table_11</field>
+    <field name="TAGGENLINK" load="true">9cbcc0e0-a990-464b-a9f9-d66e</field>
+    <field name="LINKED">1</field>
+    <field name="EDITCODE">1077681935</field>
+  </output>
+  <output name="VAR.Cmd_1_1_1_1_1_1_1_1_1_1_1_1_1" file="variable.dbf" filter="'{equipment.type}={type.name}'">
+    <field name="NAME" key="true">{equipment.tagprefix}_Table_12</field>
+    <field name="TYPE">REAL</field>
+    <field name="UNIT">{equipment.iodevice}</field>
+    <field name="ADDR">{equipment.tagprefix}.Table[12]</field>
+    <field name="COMMENT">Valeur [12;13[h</field>
+    <field name="EQUIP">{equipment.name}</field>
+    <field name="CUSTOM8">PREGLEUR_N1</field>
+    <field name="ENG_UNITS">{equipment.OUT[U]}</field>
+    <field name="FORMAT">{equipment.OUT[F]}Eu</field>
+    <field name="CLUSTER">{equipment.CLUSTER}</field>
+    <field name="ITEM">Table_12</field>
+    <field name="TAGGENLINK" load="true">9cf7fede-34ad-43ce-8930-88c7</field>
+    <field name="LINKED">1</field>
+    <field name="EDITCODE">1077681935</field>
+  </output>
+  <output name="VAR.Cmd_1_1_1_1_1_1_1_1_1_1_1_1_1_1" file="variable.dbf" filter="'{equipment.type}={type.name}'">
+    <field name="NAME" key="true">{equipment.tagprefix}_Table_13</field>
+    <field name="TYPE">REAL</field>
+    <field name="UNIT">{equipment.iodevice}</field>
+    <field name="ADDR">{equipment.tagprefix}.Table[13]</field>
+    <field name="COMMENT">Valeur [13;14[h</field>
+    <field name="EQUIP">{equipment.name}</field>
+    <field name="CUSTOM8">PREGLEUR_N1</field>
+    <field name="ENG_UNITS">{equipment.OUT[U]}</field>
+    <field name="FORMAT">{equipment.OUT[F]}Eu</field>
+    <field name="CLUSTER">{equipment.CLUSTER}</field>
+    <field name="ITEM">Table_13</field>
+    <field name="TAGGENLINK" load="true">1a2b23a1-6cf7-4819-91b3-c473</field>
+    <field name="LINKED">1</field>
+    <field name="EDITCODE">1077681935</field>
+  </output>
+  <output name="VAR.Cmd_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1" file="variable.dbf" filter="'{equipment.type}={type.name}'">
+    <field name="NAME" key="true">{equipment.tagprefix}_Table_14</field>
+    <field name="TYPE">REAL</field>
+    <field name="UNIT">{equipment.iodevice}</field>
+    <field name="ADDR">{equipment.tagprefix}.Table[14]</field>
+    <field name="COMMENT">Valeur [14;15[h</field>
+    <field name="EQUIP">{equipment.name}</field>
+    <field name="CUSTOM8">PREGLEUR_N1</field>
+    <field name="ENG_UNITS">{equipment.OUT[U]}</field>
+    <field name="FORMAT">{equipment.OUT[F]}Eu</field>
+    <field name="CLUSTER">{equipment.CLUSTER}</field>
+    <field name="ITEM">Table_14</field>
+    <field name="TAGGENLINK" load="true">5f92c88c-30c1-4a28-b9db-7f74</field>
+    <field name="LINKED">1</field>
+    <field name="EDITCODE">1077681935</field>
+  </output>
+  <output name="VAR.Cmd_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1" file="variable.dbf" filter="'{equipment.type}={type.name}'">
+    <field name="NAME" key="true">{equipment.tagprefix}_Table_15</field>
+    <field name="TYPE">REAL</field>
+    <field name="UNIT">{equipment.iodevice}</field>
+    <field name="ADDR">{equipment.tagprefix}.Table[15]</field>
+    <field name="COMMENT">Valeur [15;16[h</field>
+    <field name="EQUIP">{equipment.name}</field>
+    <field name="CUSTOM8">PREGLEUR_N1</field>
+    <field name="ENG_UNITS">{equipment.OUT[U]}</field>
+    <field name="FORMAT">{equipment.OUT[F]}Eu</field>
+    <field name="CLUSTER">{equipment.CLUSTER}</field>
+    <field name="ITEM">Table_15</field>
+    <field name="TAGGENLINK" load="true">03ecad3d-233a-4793-95d0-261b</field>
+    <field name="LINKED">1</field>
+    <field name="EDITCODE">1077681935</field>
+  </output>
+  <output name="VAR.Cmd_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1" file="variable.dbf" filter="'{equipment.type}={type.name}'">
+    <field name="NAME" key="true">{equipment.tagprefix}_Table_16</field>
+    <field name="TYPE">REAL</field>
+    <field name="UNIT">{equipment.iodevice}</field>
+    <field name="ADDR">{equipment.tagprefix}.Table[16]</field>
+    <field name="COMMENT">Valeur [16;17[h</field>
+    <field name="EQUIP">{equipment.name}</field>
+    <field name="CUSTOM8">PREGLEUR_N1</field>
+    <field name="ENG_UNITS">{equipment.OUT[U]}</field>
+    <field name="FORMAT">{equipment.OUT[F]}Eu</field>
+    <field name="CLUSTER">{equipment.CLUSTER}</field>
+    <field name="ITEM">Table_16</field>
+    <field name="TAGGENLINK" load="true">1fc1cf07-93ad-459c-91c1-4c27</field>
+    <field name="LINKED">1</field>
+    <field name="EDITCODE">1077681935</field>
+  </output>
+  <output name="VAR.Cmd_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1" file="variable.dbf" filter="'{equipment.type}={type.name}'">
+    <field name="NAME" key="true">{equipment.tagprefix}_Table_17</field>
+    <field name="TYPE">REAL</field>
+    <field name="UNIT">{equipment.iodevice}</field>
+    <field name="ADDR">{equipment.tagprefix}.Table[17]</field>
+    <field name="COMMENT">Valeur [17;18[h</field>
+    <field name="EQUIP">{equipment.name}</field>
+    <field name="CUSTOM8">PREGLEUR_N1</field>
+    <field name="ENG_UNITS">{equipment.OUT[U]}</field>
+    <field name="FORMAT">{equipment.OUT[F]}Eu</field>
+    <field name="CLUSTER">{equipment.CLUSTER}</field>
+    <field name="ITEM">Table_17</field>
+    <field name="TAGGENLINK" load="true">082cb325-6303-4d36-a968-95af</field>
+    <field name="LINKED">1</field>
+    <field name="EDITCODE">1077681935</field>
+  </output>
+  <output name="VAR.Cmd_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1" file="variable.dbf" filter="'{equipment.type}={type.name}'">
+    <field name="NAME" key="true">{equipment.tagprefix}_Table_18</field>
+    <field name="TYPE">REAL</field>
+    <field name="UNIT">{equipment.iodevice}</field>
+    <field name="ADDR">{equipment.tagprefix}.Table[18]</field>
+    <field name="COMMENT">Valeur [18;19[h</field>
+    <field name="EQUIP">{equipment.name}</field>
+    <field name="CUSTOM8">PREGLEUR_N1</field>
+    <field name="ENG_UNITS">{equipment.OUT[U]}</field>
+    <field name="FORMAT">{equipment.OUT[F]}Eu</field>
+    <field name="CLUSTER">{equipment.CLUSTER}</field>
+    <field name="ITEM">Table_18</field>
+    <field name="TAGGENLINK" load="true">d79bc40d-1076-4744-93a2-886c</field>
+    <field name="LINKED">1</field>
+    <field name="EDITCODE">1077681935</field>
+  </output>
+  <output name="VAR.Cmd_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1" file="variable.dbf" filter="'{equipment.type}={type.name}'">
+    <field name="NAME" key="true">{equipment.tagprefix}_Table_19</field>
+    <field name="TYPE">REAL</field>
+    <field name="UNIT">{equipment.iodevice}</field>
+    <field name="ADDR">{equipment.tagprefix}.Table[19]</field>
+    <field name="COMMENT">Valeur [19;20[h</field>
+    <field name="EQUIP">{equipment.name}</field>
+    <field name="CUSTOM8">PREGLEUR_N1</field>
+    <field name="ENG_UNITS">{equipment.OUT[U]}</field>
+    <field name="FORMAT">{equipment.OUT[F]}Eu</field>
+    <field name="CLUSTER">{equipment.CLUSTER}</field>
+    <field name="ITEM">Table_19</field>
+    <field name="TAGGENLINK" load="true">03bb47c2-f388-43c3-a6d1-0cfd</field>
+    <field name="LINKED">1</field>
+    <field name="EDITCODE">1077681935</field>
+  </output>
+  <output name="VAR.Cmd_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1" file="variable.dbf" filter="'{equipment.type}={type.name}'">
+    <field name="NAME" key="true">{equipment.tagprefix}_Table_20</field>
+    <field name="TYPE">REAL</field>
+    <field name="UNIT">{equipment.iodevice}</field>
+    <field name="ADDR">{equipment.tagprefix}.Table[20]</field>
+    <field name="COMMENT">Valeur [20;21[h</field>
+    <field name="EQUIP">{equipment.name}</field>
+    <field name="CUSTOM8">PREGLEUR_N1</field>
+    <field name="ENG_UNITS">{equipment.OUT[U]}</field>
+    <field name="FORMAT">{equipment.OUT[F]}Eu</field>
+    <field name="CLUSTER">{equipment.CLUSTER}</field>
+    <field name="ITEM">Table_20</field>
+    <field name="TAGGENLINK" load="true">e6801324-d5ea-4bef-91ac-ca59</field>
+    <field name="LINKED">1</field>
+    <field name="EDITCODE">1077681935</field>
+  </output>
+  <output name="VAR.Cmd_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1" file="variable.dbf" filter="'{equipment.type}={type.name}'">
+    <field name="NAME" key="true">{equipment.tagprefix}_Table_21</field>
+    <field name="TYPE">REAL</field>
+    <field name="UNIT">{equipment.iodevice}</field>
+    <field name="ADDR">{equipment.tagprefix}.Table[21]</field>
+    <field name="COMMENT">Valeur [21;22[h</field>
+    <field name="EQUIP">{equipment.name}</field>
+    <field name="CUSTOM8">PREGLEUR_N1</field>
+    <field name="ENG_UNITS">{equipment.OUT[U]}</field>
+    <field name="FORMAT">{equipment.OUT[F]}Eu</field>
+    <field name="CLUSTER">{equipment.CLUSTER}</field>
+    <field name="ITEM">Table_21</field>
+    <field name="TAGGENLINK" load="true">c4b95f09-1095-4eae-a208-50db</field>
+    <field name="LINKED">1</field>
+    <field name="EDITCODE">1077681935</field>
+  </output>
+  <output name="VAR.Cmd_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1" file="variable.dbf" filter="'{equipment.type}={type.name}'">
+    <field name="NAME" key="true">{equipment.tagprefix}_Table_22</field>
+    <field name="TYPE">REAL</field>
+    <field name="UNIT">{equipment.iodevice}</field>
+    <field name="ADDR">{equipment.tagprefix}.Table[22]</field>
+    <field name="COMMENT">Valeur [22;23[h</field>
+    <field name="EQUIP">{equipment.name}</field>
+    <field name="CUSTOM8">PREGLEUR_N1</field>
+    <field name="ENG_UNITS">{equipment.OUT[U]}</field>
+    <field name="FORMAT">{equipment.OUT[F]}Eu</field>
+    <field name="CLUSTER">{equipment.CLUSTER}</field>
+    <field name="ITEM">Table_22</field>
+    <field name="TAGGENLINK" load="true">c9035559-9538-4396-9de4-13bf</field>
+    <field name="LINKED">1</field>
+    <field name="EDITCODE">1077681935</field>
+  </output>
+  <output name="VAR.Cmd_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1_1" file="variable.dbf" filter="'{equipment.type}={type.name}'">
+    <field name="NAME" key="true">{equipment.tagprefix}_Table_23</field>
+    <field name="TYPE">REAL</field>
+    <field name="UNIT">{equipment.iodevice}</field>
+    <field name="ADDR">{equipment.tagprefix}.Table[23]</field>
+    <field name="COMMENT">Valeur [23;0[h</field>
+    <field name="EQUIP">{equipment.name}</field>
+    <field name="CUSTOM8">PREGLEUR_N1</field>
+    <field name="ENG_UNITS">{equipment.OUT[U]}</field>
+    <field name="FORMAT">{equipment.OUT[F]}Eu</field>
+    <field name="CLUSTER">{equipment.CLUSTER}</field>
+    <field name="ITEM">Table_23</field>
+    <field name="TAGGENLINK" load="true">82043fa8-3d8f-465f-8f9f-9dd2</field>
+    <field name="LINKED">1</field>
+    <field name="EDITCODE">1077681935</field>
+  </output>
+</template>
