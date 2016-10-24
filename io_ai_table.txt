@@ -1,3 +1,0 @@
-IO_AI_tABLE : Table horaire
-
-V1.1.0	- GES	- Gestionnaire de version
